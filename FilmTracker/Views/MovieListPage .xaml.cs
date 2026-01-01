@@ -13,3 +13,4 @@ public partial class MovieListPage : ContentPage
         InitializeComponent();
     }
 }
+
