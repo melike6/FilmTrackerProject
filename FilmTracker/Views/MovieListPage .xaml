@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMovieShelf.Views.MovieListPage"
+             Title="My Movie Shelf">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label Text="🎬 Film Listem"
+               FontSize="24"
+               HorizontalOptions="Center" />
+
+        <!-- Şimdilik boş liste -->
+        <CollectionView>
+            <CollectionView.EmptyView>
+                <Label Text="Henüz film eklenmedi."
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Button Text="➕ Film Ekle" />
+
+    </VerticalStackLayout>
+</ContentPage>
