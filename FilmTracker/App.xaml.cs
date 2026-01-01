@@ -1,6 +1,6 @@
-﻿using MyMovieShelf.Views;
+﻿using FilmTracker.Views;
 
-namespace MyMovieShelf;
+namespace FilmTracker;
 
 public partial class App : Application
 {

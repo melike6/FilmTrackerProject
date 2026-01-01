@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FilmTracker.Views;
 
-public partial class MovieListPage_ : ContentPage
+public partial class MovieListPage : ContentPage
 {
-    public MovieListPage_()
+    public MovieListPage()
     {
         InitializeComponent();
     }
