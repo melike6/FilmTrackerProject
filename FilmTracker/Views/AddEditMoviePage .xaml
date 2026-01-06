@@ -27,22 +27,19 @@
             <Entry x:Name="YearEntry"
                    Placeholder="Yıl"
                    Keyboard="Numeric" />
-
-            <!-- İzlenme durumu -->
+            
             <HorizontalStackLayout>
                 <Label Text="İzlendi mi?"
                        VerticalOptions="Center" />
                 <Switch x:Name="WatchedSwitch" />
             </HorizontalStackLayout>
-
-            <!-- Favori -->
+            
             <HorizontalStackLayout>
                 <Label Text="Favorilere ekle"
                        VerticalOptions="Center" />
                 <Switch x:Name="FavoriteSwitch" />
             </HorizontalStackLayout>
-
-            <!-- Watchlist -->
+            
             <HorizontalStackLayout>
                 <Label Text="Watchlist’e ekle"
                        VerticalOptions="Center" />

@@ -13,15 +13,15 @@ public class MovieDatabase
         _database.CreateTableAsync<Movie>().Wait();
     }
 
-    // 🔹 TÜM FİLMLER
+    
     public Task<List<Movie>> GetMoviesAsync()
         => _database.Table<Movie>().OrderBy(m => m.Title).ToListAsync();
 
-    // 🔹 ID İLE TEK FİLM
+
     public Task<Movie> GetMovieAsync(int id)
         => _database.Table<Movie>().FirstOrDefaultAsync(m => m.Id == id);
 
-    // 🔹 EKLE / GÜNCELLE
+   
     public Task<int> SaveMovieAsync(Movie movie)
     {
         if (movie.Id != 0)
@@ -30,11 +30,10 @@ public class MovieDatabase
             return _database.InsertAsync(movie);
     }
 
-    // 🔹 SİL
+   
     public Task<int> DeleteMovieAsync(Movie movie)
         => _database.DeleteAsync(movie);
-
-    // 🔹 ARAMA + FİLTRE (EN ÖNEMLİ METOT)
+    
     public async Task<List<Movie>> SearchMoviesAsync(string searchText, string filter)
     {
         var query = _database.Table<Movie>();

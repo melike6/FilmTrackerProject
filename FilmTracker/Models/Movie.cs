@@ -15,10 +15,7 @@ public class Movie
     public bool IsWatched { get; set; }
     public double Rating { get; set; }
     public string Note { get; set; }
-
-    // ⭐ Favori
+    
     public bool IsFavorite { get; set; }
-
-    // 👀 Watchlist
     public bool IsInWatchlist { get; set; }
 }

@@ -5,8 +5,7 @@ namespace FilmTracker.Views;
 public partial class AddEditMoviePage : ContentPage
 {
     private Movie _movie;
-
-    // ➕ Yeni film
+    
     public AddEditMoviePage()
     {
         InitializeComponent();
@@ -14,8 +13,7 @@ public partial class AddEditMoviePage : ContentPage
 
         HookEvents();
     }
-
-    // ✏️ Düzenleme
+    
     public AddEditMoviePage(Movie movie)
     {
         InitializeComponent();
@@ -33,8 +31,7 @@ public partial class AddEditMoviePage : ContentPage
 
         HookEvents();
     }
-
-    // 🎯 İzlenince watchlist otomatik kapansın
+    
     private void HookEvents()
     {
         WatchedSwitch.Toggled += (_, _) =>
@@ -74,8 +71,7 @@ public partial class AddEditMoviePage : ContentPage
         _movie.IsInWatchlist = WatchlistSwitch.IsToggled;
         _movie.Rating = RatingSlider.Value;
         _movie.Note = NoteEditor.Text;
-
-        // İzlendiyse watchlist iptal
+        
         if (_movie.IsWatched)
             _movie.IsInWatchlist = false;
 
