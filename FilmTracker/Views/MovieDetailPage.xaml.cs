@@ -25,22 +25,14 @@ public partial class MovieDetailPage : ContentPage
     }
 
     private async void OnEditClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new AddEditMoviePage(_movie));
-    }
+        => await Navigation.PushAsync(new AddEditMoviePage(_movie));
 
     private async void OnDeleteClicked(object sender, EventArgs e)
     {
-        bool confirm = await DisplayAlert(
-            "Sil",
-            "Bu filmi silmek istiyor musunuz?",
-            "Evet",
-            "Hayır");
-
-        if (!confirm)
-            return;
-
-        await App.Database.DeleteMovieAsync(_movie);
-        await Navigation.PopAsync();
+        if (await DisplayAlert("Sil", "Bu film silinsin mi?", "Evet", "Hayır"))
+        {
+            await App.Database.DeleteMovieAsync(_movie);
+            await Navigation.PopAsync();
+        }
     }
 }

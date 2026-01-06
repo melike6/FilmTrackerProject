@@ -6,12 +6,10 @@
 
     <VerticalStackLayout Padding="10" Spacing="8">
 
-        <!-- 🔍 Arama -->
         <SearchBar x:Name="SearchBar"
                    Placeholder="Film ara..."
                    TextChanged="OnSearchChanged" />
 
-        <!-- 🎯 Filtre -->
         <Picker x:Name="FilterPicker"
                 SelectedIndexChanged="OnFilterChanged">
             <Picker.Items>
@@ -19,6 +17,7 @@
                 <x:String>İzlenen</x:String>
                 <x:String>İzlenmeyen</x:String>
                 <x:String>Favoriler</x:String>
+                <x:String>Watchlist</x:String>
             </Picker.Items>
         </Picker>
 
@@ -32,9 +31,13 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
-
                         <SwipeView.RightItems>
                             <SwipeItems Mode="Reveal">
+
+                                <SwipeItem Text="👀"
+                                           BackgroundColor="DodgerBlue"
+                                           CommandParameter="{Binding .}"
+                                           Invoked="OnWatchlistClicked" />
 
                                 <SwipeItem Text="⭐"
                                            BackgroundColor="Gold"
@@ -45,20 +48,23 @@
                                            BackgroundColor="Red"
                                            CommandParameter="{Binding .}"
                                            Invoked="OnSwipeDelete" />
+
                             </SwipeItems>
                         </SwipeView.RightItems>
 
-                        <Frame Margin="8"
-                               Padding="10">
-                            <HorizontalStackLayout Spacing="10">
+                        <Frame Margin="8" Padding="10">
+                            <HorizontalStackLayout>
 
                                 <Label Text="{Binding Title}"
                                        FontAttributes="Bold"
                                        HorizontalOptions="StartAndExpand" />
 
+                                <Label Text="👀"
+                                       IsVisible="{Binding IsInWatchlist}" />
+
                                 <Label Text="⭐"
-                                       IsVisible="{Binding IsFavorite}"
-                                       TextColor="Gold" />
+                                       TextColor="Gold"
+                                       IsVisible="{Binding IsFavorite}" />
 
                             </HorizontalStackLayout>
                         </Frame>
@@ -71,5 +77,6 @@
 
     </VerticalStackLayout>
 </ContentPage>
+
 
 

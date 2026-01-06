@@ -6,12 +6,16 @@ public partial class AddEditMoviePage : ContentPage
 {
     private Movie _movie;
 
+    // ➕ Yeni film
     public AddEditMoviePage()
     {
         InitializeComponent();
         _movie = new Movie();
+
+        HookEvents();
     }
 
+    // ✏️ Düzenleme
     public AddEditMoviePage(Movie movie)
     {
         InitializeComponent();
@@ -22,8 +26,29 @@ public partial class AddEditMoviePage : ContentPage
         GenrePicker.SelectedItem = movie.Genre;
         YearEntry.Text = movie.ReleaseYear.ToString();
         WatchedSwitch.IsToggled = movie.IsWatched;
+        FavoriteSwitch.IsToggled = movie.IsFavorite;
+        WatchlistSwitch.IsToggled = movie.IsInWatchlist;
         RatingSlider.Value = movie.Rating;
         NoteEditor.Text = movie.Note;
+
+        HookEvents();
+    }
+
+    // 🎯 İzlenince watchlist otomatik kapansın
+    private void HookEvents()
+    {
+        WatchedSwitch.Toggled += (_, _) =>
+        {
+            if (WatchedSwitch.IsToggled)
+            {
+                WatchlistSwitch.IsToggled = false;
+                WatchlistSwitch.IsEnabled = false;
+            }
+            else
+            {
+                WatchlistSwitch.IsEnabled = true;
+            }
+        };
     }
 
     private async void OnSaveClicked(object sender, EventArgs e)
@@ -34,20 +59,25 @@ public partial class AddEditMoviePage : ContentPage
             return;
         }
 
-        _movie.Title = TitleEntry.Text;
-        _movie.Director = DirectorEntry.Text;
-        _movie.Genre = GenrePicker.SelectedItem?.ToString();
-        _movie.IsWatched = WatchedSwitch.IsToggled;
-        _movie.Rating = RatingSlider.Value;
-        _movie.Note = NoteEditor.Text;
-
         if (!int.TryParse(YearEntry.Text, out int year))
         {
-            await DisplayAlert("Hata", "Geçerli bir yıl giriniz", "Tamam");
+            await DisplayAlert("Hata", "Geçerli bir yıl girin", "Tamam");
             return;
         }
 
+        _movie.Title = TitleEntry.Text;
+        _movie.Director = DirectorEntry.Text;
+        _movie.Genre = GenrePicker.SelectedItem?.ToString();
         _movie.ReleaseYear = year;
+        _movie.IsWatched = WatchedSwitch.IsToggled;
+        _movie.IsFavorite = FavoriteSwitch.IsToggled;
+        _movie.IsInWatchlist = WatchlistSwitch.IsToggled;
+        _movie.Rating = RatingSlider.Value;
+        _movie.Note = NoteEditor.Text;
+
+        // İzlendiyse watchlist iptal
+        if (_movie.IsWatched)
+            _movie.IsInWatchlist = false;
 
         await App.Database.SaveMovieAsync(_movie);
         await Navigation.PopAsync();

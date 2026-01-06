@@ -16,6 +16,9 @@ public class Movie
     public double Rating { get; set; }
     public string Note { get; set; }
 
-    // ⭐ YENİ
+    // ⭐ Favori
     public bool IsFavorite { get; set; }
+
+    // 👀 Watchlist
+    public bool IsInWatchlist { get; set; }
 }

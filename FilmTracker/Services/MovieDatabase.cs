@@ -13,43 +13,41 @@ public class MovieDatabase
         _database.CreateTableAsync<Movie>().Wait();
     }
 
-    // Tüm filmleri getir
+    // 🔹 TÜM FİLMLER
     public Task<List<Movie>> GetMoviesAsync()
-    {
-        return _database.Table<Movie>().OrderBy(m => m.Title).ToListAsync();
-    }
+        => _database.Table<Movie>().OrderBy(m => m.Title).ToListAsync();
 
-    // ID ile film getir
+    // 🔹 ID İLE TEK FİLM
     public Task<Movie> GetMovieAsync(int id)
-    {
-        return _database.Table<Movie>()
-            .Where(m => m.Id == id)
-            .FirstOrDefaultAsync();
-    }
+        => _database.Table<Movie>().FirstOrDefaultAsync(m => m.Id == id);
 
-    // Film ekle / güncelle
+    // 🔹 EKLE / GÜNCELLE
     public Task<int> SaveMovieAsync(Movie movie)
     {
         if (movie.Id != 0)
             return _database.UpdateAsync(movie);
-
-        return _database.InsertAsync(movie);
+        else
+            return _database.InsertAsync(movie);
     }
 
-    // Film sil
+    // 🔹 SİL
     public Task<int> DeleteMovieAsync(Movie movie)
-    {
-        return _database.DeleteAsync(movie);
-    }
-    public Task<List<Movie>> SearchMoviesAsync(string searchText, string filter)
+        => _database.DeleteAsync(movie);
+
+    // 🔹 ARAMA + FİLTRE (EN ÖNEMLİ METOT)
+    public async Task<List<Movie>> SearchMoviesAsync(string searchText, string filter)
     {
         var query = _database.Table<Movie>();
 
+        // 🔍 Arama
         if (!string.IsNullOrWhiteSpace(searchText))
         {
-            query = query.Where(m => m.Title.Contains(searchText));
+            query = query.Where(m =>
+                m.Title.Contains(searchText) ||
+                m.Director.Contains(searchText));
         }
 
+        // 🎯 Filtre
         switch (filter)
         {
             case "İzlenen":
@@ -63,9 +61,17 @@ public class MovieDatabase
             case "Favoriler":
                 query = query.Where(m => m.IsFavorite);
                 break;
+
+            case "Watchlist":
+                query = query.Where(m => m.IsInWatchlist);
+                break;
+
+            // "Tümü" veya null → filtre yok
         }
 
-        return query.OrderBy(m => m.Title).ToListAsync();
+        return await query
+            .OrderByDescending(m => m.IsFavorite)
+            .ThenBy(m => m.Title)
+            .ToListAsync();
     }
-
 }

@@ -4,32 +4,30 @@
              x:Class="FilmTracker.Views.MovieDetailPage"
              Title="Film Detayı">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="10">
+    <VerticalStackLayout Padding="20" Spacing="8">
 
-            <Label x:Name="TitleLabel"
-                   FontSize="24"
-                   FontAttributes="Bold" />
+        <Label x:Name="TitleLabel"
+               FontSize="24"
+               FontAttributes="Bold" />
 
-            <Label x:Name="DirectorLabel" />
-            <Label x:Name="GenreLabel" />
-            <Label x:Name="YearLabel" />
-            <Label x:Name="WatchedLabel" />
-            <Label x:Name="RatingLabel" />
+        <Label x:Name="DirectorLabel" />
+        <Label x:Name="GenreLabel" />
+        <Label x:Name="YearLabel" />
+        <Label x:Name="WatchedLabel" />
+        <Label x:Name="RatingLabel" />
 
-            <Label Text="Not:"
-                   FontAttributes="Bold"
-                   Margin="0,10,0,0" />
+        <Label Text="Not:"
+               FontAttributes="Bold"
+               Margin="0,10,0,0" />
 
-            <Label x:Name="NoteLabel" />
+        <Label x:Name="NoteLabel" />
 
-            <Button Text="✏️ Düzenle"
-                    Clicked="OnEditClicked" />
+        <Button Text="✏️ Düzenle"
+                Clicked="OnEditClicked" />
 
-            <Button Text="🗑️ Sil"
-                    TextColor="Red"
-                    Clicked="OnDeleteClicked" />
+        <Button Text="🗑️ Sil"
+                TextColor="Red"
+                Clicked="OnDeleteClicked" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+    </VerticalStackLayout>
 </ContentPage>
