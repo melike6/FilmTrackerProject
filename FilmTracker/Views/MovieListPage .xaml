@@ -2,26 +2,74 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FilmTracker.Views.MovieListPage"
-             Title="Film Tracker">
+             Title="Filmler">
 
-    <VerticalStackLayout Padding="20" Spacing="15">
+    <VerticalStackLayout Padding="10" Spacing="8">
 
-        <Label Text="🎬 Film Listem"
-               FontSize="24"
-               HorizontalOptions="Center" />
+        <!-- 🔍 Arama -->
+        <SearchBar x:Name="SearchBar"
+                   Placeholder="Film ara..."
+                   TextChanged="OnSearchChanged" />
 
-        <CollectionView>
-            <CollectionView.EmptyView>
-                <Label Text="Henüz film eklenmedi."
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"/>
-            </CollectionView.EmptyView>
+        <!-- 🎯 Filtre -->
+        <Picker x:Name="FilterPicker"
+                SelectedIndexChanged="OnFilterChanged">
+            <Picker.Items>
+                <x:String>Tümü</x:String>
+                <x:String>İzlenen</x:String>
+                <x:String>İzlenmeyen</x:String>
+                <x:String>Favoriler</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <Button Text="➕ Film Ekle"
+                Clicked="OnAddMovieClicked" />
+
+        <CollectionView x:Name="MoviesCollectionView"
+                        SelectionMode="Single"
+                        SelectionChanged="MoviesCollectionView_SelectionChanged">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Reveal">
+
+                                <SwipeItem Text="⭐"
+                                           BackgroundColor="Gold"
+                                           CommandParameter="{Binding .}"
+                                           Invoked="OnFavoriteClicked" />
+
+                                <SwipeItem Text="Sil"
+                                           BackgroundColor="Red"
+                                           CommandParameter="{Binding .}"
+                                           Invoked="OnSwipeDelete" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Frame Margin="8"
+                               Padding="10">
+                            <HorizontalStackLayout Spacing="10">
+
+                                <Label Text="{Binding Title}"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="StartAndExpand" />
+
+                                <Label Text="⭐"
+                                       IsVisible="{Binding IsFavorite}"
+                                       TextColor="Gold" />
+
+                            </HorizontalStackLayout>
+                        </Frame>
+
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
         </CollectionView>
 
-        <Button Text="➕ Film Ekle" />
-
     </VerticalStackLayout>
-
 </ContentPage>
 
 

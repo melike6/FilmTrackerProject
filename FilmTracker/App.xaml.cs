@@ -1,5 +1,5 @@
-﻿using FilmTracker.Views;
-using FilmTracker.Services;
+﻿using FilmTracker.Data;
+using FilmTracker.Views;
 
 namespace FilmTracker;
 
@@ -14,9 +14,8 @@ public partial class App : Application
             if (_database == null)
             {
                 string dbPath = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "filmtracker.db3"
-                );
+                    FileSystem.AppDataDirectory,
+                    "films.db");
 
                 _database = new MovieDatabase(dbPath);
             }
