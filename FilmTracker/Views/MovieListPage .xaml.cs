@@ -16,6 +16,7 @@ public partial class MovieListPage : ContentPage
         await LoadMovies();
     }
 
+    
     private async Task LoadMovies()
     {
         MoviesCollectionView.ItemsSource =
@@ -23,17 +24,21 @@ public partial class MovieListPage : ContentPage
                 SearchBar.Text,
                 FilterPicker.SelectedItem?.ToString());
     }
-
+    
     private async void OnSearchChanged(object sender, TextChangedEventArgs e)
         => await LoadMovies();
 
     private async void OnFilterChanged(object sender, EventArgs e)
         => await LoadMovies();
 
+   
     private async void OnAddMovieClicked(object sender, EventArgs e)
         => await Navigation.PushAsync(new AddEditMoviePage());
 
-    private async void MoviesCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void OnStatisticsClicked(object sender, EventArgs e)
+        => await Navigation.PushAsync(new StatisticsPage());
+
+    private async void OnMovieSelected(object sender, SelectionChangedEventArgs e)
     {
         if (e.CurrentSelection.FirstOrDefault() is Movie movie)
         {
@@ -42,16 +47,22 @@ public partial class MovieListPage : ContentPage
         }
     }
 
-    private async void OnSwipeDelete(object sender, EventArgs e)
+   
+    private async void OnDeleteClicked(object sender, EventArgs e)
     {
         var movie = (sender as SwipeItem)?.CommandParameter as Movie;
         if (movie == null) return;
 
-        if (await DisplayAlert("Sil", $"{movie.Title} silinsin mi?", "Evet", "Hayır"))
-        {
-            await App.Database.DeleteMovieAsync(movie);
-            await LoadMovies();
-        }
+        bool confirm = await DisplayAlert(
+            "Sil",
+            $"{movie.Title} silinsin mi?",
+            "Evet",
+            "Hayır");
+
+        if (!confirm) return;
+
+        await App.Database.DeleteMovieAsync(movie);
+        await LoadMovies();
     }
 
     private async void OnFavoriteClicked(object sender, EventArgs e)
@@ -69,11 +80,11 @@ public partial class MovieListPage : ContentPage
         var movie = (sender as SwipeItem)?.CommandParameter as Movie;
         if (movie == null) return;
 
-        movie.IsInWatchlist = !movie.IsInWatchlist;
-
+        
         if (movie.IsWatched)
-            movie.IsInWatchlist = false;
+            return;
 
+        movie.IsInWatchlist = !movie.IsInWatchlist;
         await App.Database.SaveMovieAsync(movie);
         await LoadMovies();
     }
